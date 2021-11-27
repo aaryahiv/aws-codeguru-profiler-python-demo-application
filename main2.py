@@ -76,11 +76,11 @@ def process_kinesis(kinesis, file_list_path):
     flp = open(file_list_path, 'r')
     for line in flp:
         file_path = line.strip('\n').strip('\r\n')
-        fp = open(file_path, 'r')
-        for content in fp:
-            if content.find("kinesis") != -1:
-                record = load_kinesis_record(content)
-                save_kinesis_record(kinesis, record)
+        with open(file_path, 'r') as fp:
+            for content in fp:
+                if content.find("kinesis") != -1:
+                    record = load_kinesis_record(content)
+                    save_kinesis_record(kinesis, record)
 
 # Do not call this function unless you're sure that the "cmd" is secure to run
 # This function can be misused to carry out shell injection attacks.
